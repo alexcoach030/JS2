@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const renderGoodsItem = (item, button = '<button class="addCart">Добавить в корзину</button>') => {
-        return `'<div class="goods-item">
+        return `<div class="goods-item">
                     <h3>${item.title}</h3>
                     <img src="${item.img}">
                     <p>Цена: ${item.price}</p>
