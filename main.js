@@ -1,26 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const goods = [
-        { title: 'Shirt', img: 'http://via.placeholder.com/150/0000FF', price: 150 },
-        { title: 'Socks', img: 'http://via.placeholder.com/150/FF0000', price: 50 },
-        { title: 'Jacket', img: 'http://via.placeholder.com/150/FFFFFF', price: 350 },
-        { title: 'Shoes', img: 'http://via.placeholder.com/150/808080', price: 250 },
-    ];
+    class GoodsItem {
+        constructor(title, price) {
+            this.title = title;
+            this.price = price;
+        }
+        render() {
+            return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p></div>`;
+        }
+    }
 
-    const renderGoodsItem = (item, button = '<button class="addCart">Добавить в корзину</button>') => {
-        return `<div class="goods-item">
-                    <h3>${item.title}</h3>
-                    <img src="${item.img}">
-                    <p>Цена: ${item.price}</p>
-                    ${button}
-                </div>`
+    class GoodsList {
+        constructor() {
+            this.goods = [];
+        }
+        fetchGoods() {
+            this.goods = [
+                { title: 'Shirt', price: 150 },
+                { title: 'Socks', price: 50 },
+                { title: 'Jacket', price: 350 },
+                { title: 'Shoes', price: 250 },
+            ];
+        }
+        render() {
+            let listHtml = '';
+            this.goods.forEach(good => {
+                const goodItem = new GoodsItem(good.title, good.price);
+                listHtml += goodItem.render();
+            });
+            document.querySelector('.goods-list').innerHTML = listHtml;
+        }
 
-    };
+        sum(){
+            let sum = 0;
+            for (let item of this.goods){
+                sum += item.price;
+                console.log(sum);
+            }
+        }
+    }
 
-    const renderGoodsList = list => {
-        document.querySelector('.goods-list').innerHTML = list.map(item => renderGoodsItem(item)).join('');
-    };
+    class Cart {
+        addCart();
+        deleteCart();
+        render();
+    }
 
-    renderGoodsList(goods);
+    class CartItem {
+        deleteItem();
+        scoreItem();
+    }
+
+    const list = new GoodsList();
+    list.fetchGoods();
+    list.render();
+    list.sum();
 })
 
 
