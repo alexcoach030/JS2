@@ -1,151 +1,39 @@
-document.addEventListener('DOMContentLoaded', () => {
+let text = 'One: \'Hi Mary.\' Two: \'Oh, hi.\'\n' +
+    'One: \'How are you doing?\'\n' +
+    'Two: \'I\'m doing alright. How about you?\'\n' +
+    '    One: \'Not too bad. The weather is great isn\'t it?\'\n' +
+    '    Two: \'Yes. It\'s absolutely beautiful today.\'\n' +
+    'One: \'I wish it was like this more frequently.\'\n' +
+    'Two: \'Me too.\'\n' +
+    'One: \'So where are you going now?\'\n' +
+    'Two: \'I\'m going to meet a friend of mine at the department store.\'\n' +
+    'One: \'Going to do a little shopping?\'\n' +
+    'Two: \'Yeah, I have to buy some presents for my parents.\'\n' +
+    'One: \'What\'s the occasion?\'\n' +
+    '    Two: \'It\'s their anniversary.\'\n' +
+    'One: \'That\'s great. Well, you better get going. You don\'t want to be late.\'\n' +
+    'Two: \'I\'ll see you next time.\'\n' +
+    'One: \'Sure. Bye.\'';
 
-const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-class ProductsList {
-    constructor(container = '.products'){
-        this.container = container;
-        this.goods = [];//массив товаров
-        this.allProducts = [];//массив объектов
-        this._getProducts()
-            .then(data => { //data - объект js
-                this.goods = [...data];
-                this.render()
-            });
+let editText = text.replace(/'/igm,'"');
+let editText2 = editText.replace(/\b[a-z]+"[a-z]+\b/ig, (str) => str.replace(/"/, '\''));
+console.log(editText2);
+alert(editText2);
+
+document.querySelector('.btn-join').addEventListener('click', getForm);
+function getForm () {
+    let form = document.forms.registration;
+    if(!(form.name.value.match(/^[a-z]{1,16}$/i))) {
+        form.name.insertAdjacentHTML('afterend', `Введено некорректное имя`);
+        document.querySelector('.input-name').style.backgroundColor = '#ff4455';
     }
-
-    _getProducts(){
-        return fetch(`${API}/catalogData.json`)
-            .then(result => result.json())
-            .catch(error => {
-                console.log(error);
-            })
+    if(!(form.telephone.value.match(/\+7\([0-9]{3}\)[0-9]{3}-[0-9]{4}/g))) {
+        form.telephone.insertAdjacentHTML('afterend', `Введён некорректный номер`);
+        document.querySelector('.input-tel').style.backgroundColor = '#ff4455';
     }
-
-    render(){
-        const block = document.querySelector(this.container);
-        for (let product of this.goods){
-            const productObj = new ProductItem(product);
-            this.allProducts.push(productObj);
-            block.insertAdjacentHTML('beforeend', productObj.render());
-        }
-
-    }
-}
-
-class ProductItem {
-    constructor(product, img = 'https://placehold.it/200x150'){
-        this.title = product.product_name;
-        this.price = product.price;
-        this.id = product.id_product;
-        this.img = img;
-    }
-    render(){
-        return `<div class="product-item" data-id="${this.id}">
-                <img src="${this.img}" alt="Some img">
-                <div class="desc">
-                    <h3>${this.title}</h3>
-                    <p>${this.price} $</p>
-                    <button class="buy-btn">Купить</button>
-                </div>
-            </div>`
+    if(!(form.mail.value.match(/^[a-z0-9._-]{1,10}[ .-]?[a-z0-9._-]{1,10}@[a-z0-9._-]{1,10}\.[a-z0-9._-]{2,4}$/iu))) {
+        form.mail.insertAdjacentHTML('afterend', `Введён некорректный майл`);
+        document.querySelector('.input-mail').style.backgroundColor = '#ff4455';
     }
 }
-
-class BasketList {
-    constructor(container = '.basket'){
-        this.container = container;
-        this.goods = [];
-        this._getBasket()
-            .then(data => {
-                this.goods = [...data.contents];
-                this.render()
-            });
-    }
-    _getBasket(){
-        return fetch(`${API}/getBasket.json`)
-            .then(result => result.json())
-            .catch(error => {
-                console.log(error);
-            })
-    }
-    render(){
-        const block = document.querySelector(this.container);
-        for (let product of this.goods){
-            const basketObj = new BasketItem(product);
-            block.insertAdjacentHTML('beforeend', basketObj.render());
-            this.addClicker(product, block, basketObj); // функция добавления события на кнопку +
-            this.removeClicker(product, block); // функция добавления события на кнопку -
-        }
-        this.renderResult(); // функция вывода итога Корзины
-    }
-    addClicker(product, block) {
-        const btn = document.getElementById(product.id_product + '-1');
-        if(btn) {
-            btn.addEventListener('click', () => {
-                product.quantity ++;
-                block.innerHTML = '';
-                this.render();
-            });
-        }
-        else console.log('error');
-    }
-    removeClicker(product, block) {
-        const btn = document.getElementById(product.id_product + '-2');
-        if(btn) {
-            btn.addEventListener('click', () => {
-                if (product.quantity > 0) product.quantity --;
-                console.log(5);
-                block.innerHTML = '';
-                this.render();
-            });
-        }
-        else console.log('error');
-    }
-
-    renderResult() {
-        const sumBlock = document.querySelector('.basket');
-        this.sum = this.goods.reduce((accum, item) => accum += item.price * item.quantity, 0);
-        sumBlock.insertAdjacentHTML('beforeend', `<p>Сумма заказа ${this.sum} $</p>`);
-    }
-}
-
-class BasketItem {
-    constructor(product, img = 'https://placehold.it/200x150') {
-        this.title = product.product_name;
-        this.price = product.price * product.quantity;
-        this.id = product.id_product;
-        this.img = img;
-        this.count = product.quantity;
-    }
-
-    render() {
-        return `<div class="basket-item" data-id="${this.id}">
-                <img src="${this.img}" alt="Some img">
-                <div class="desc">
-                    <h3>${this.title}</h3>
-                    <p>${this.price} $</p>
-                    <p>${this.count} шт</p>
-                    <button id='${this.id}-1' class="add-btn">+</button>
-                    <button id='${this.id}-2' class="add-btn">-</button>
-                </div>
-            </div>`
-    }
-
-}
-
-
-let productList = new ProductsList();
-let basketList = new BasketList();
-
-
-// Добавление функции для всплывания блока Корзины по нажатию
-let blockBasket = document.querySelector('.btn-cart');
-if(!blockBasket) console.log('error-basket-show');
-else {
-    blockBasket.addEventListener('click', addShow);
-    function addShow () {
-        document.querySelector('.basket').classList.remove('basket-show');
-    }
-}
-})
