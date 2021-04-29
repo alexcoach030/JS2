@@ -1,21 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>eShop</title>
+    <meta charset="UTF-8">
+    <title>Интернет-магазин</title>
     <link rel="stylesheet" href="main.css">
-    <script src="main.js"></script>
 </head>
 <body>
-<header>
-    <section class="menu">
-        <p>Магазин</p>
-        <button class="cart-button" type="button">Корзина</button>
-    </section>
-
-</header>
-<main>
-    <div class="goods-list"></div>
-</main>
+<div id="app">
+    <header>
+        <div class="logo">E-shop</div>
+        <div class="cart">
+            <form action="#" class="search-form">
+                <input type="text" class="search-field" v-model="userSearch">
+                <button class="btn-search" @click="filter(userSearch)">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <button class="btn-cart" type="button" @click="show = !show">Корзина</button>
+            <div class="cart-block invisible"></div>
+        </div>
+    </header>
+    <main>
+        <div class="products">
+            <div class="product-item" v-for="product of filtered">
+                <img :src="imgCatalog" alt="Some img">
+                <div class="desc">
+                    <h3>{{product.product_name}}</h3>
+                    <p>{{product.price}} $</p>
+                    <button class="buy-btn" @click="addProduct(product)">Купить</button>
+                </div>
+            </div>
+        </div>
+        <div class="basket" v-if="show">
+            <p v-if="!basket.length">Корзина пуста</p>
+            <div class="basket-item" v-for="product of basket">
+                <img :src="imgCatalog" alt="Some img">
+                <div class="desc">
+                    <h3>{{product.product_name}}</h3>
+                    <p>{{product.price * product.quantity}} $</p>
+                    <p>{{product.quantity}} шт</p>
+                    <button class="buy-btn" @click="removeProduct(product)">Удалить</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
