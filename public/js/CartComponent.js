@@ -51,20 +51,28 @@ Vue.component('cart', {
             //     })
         },
         remove(item){
-            this.$parent.getJson(`${API}/addToBasket.json`)
-                .then(data => {
-                    if (data.result === 1) {
-                        if(item.quantity>1){
-                            item.quantity--;
-                        } else {
-                            this.cartItems.splice(this.cartItems.indexOf(item), 1);
+            let find = this.cartItems.find(el => el.id_product === item.id_product);
+            if (item.quantity >1){
+                this.$parent.putJson(`/api/cart/${find.id_product}`, {quantity: -1})
+                    .then(data => {
+                            if (data.result === 1) {
+                                    item.quantity--;
+                                }
+                    })
+            }else {
+                this.$parent.removeJSON (`/api/cart/${find.id_product}`, item)
+                    .then(data => {
+                        if (data.result === 1){
+                            this.cartItems.splice(this.cartItems.indexOf(item), 1)
+                        }else {
+                            console.log('error')
                         }
-                    }
-                })
+                    })
+                }
         },
     },
     template: `<div>
-<button class="btn-cart" type="button" @click="showCart = !showCart">Корзина</button>
+<button class="btn-cart" type="button" @click="showCart = !showCart"></button>
         <div class="cart-block" v-show="showCart">
             <cart-item v-for="item of cartItems" :key="item.id_product" :img="item.img" :cart-item="item" @remove="remove">
             </cart-item>

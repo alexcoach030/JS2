@@ -17,18 +17,21 @@ button:focus{
     font-weight: bold;
 }
 .btn-cart{
-    background-color: #fafafa;
+    background-color: transparent;
+    width: 40px;
+    height: 38px;
     padding: 10px 20px;
     border: 1px solid transparent;
-    color: #2f2a2d;
+    color: transparent;
     border-radius: 5px;
-    transition: all ease-in-out .4s;
     cursor: pointer;
+    background-image: url("../img/basket.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: 0.7s;
 }
 .btn-cart:hover{
-    background-color: transparent;
-    border-color: #fafafa;
-    color: #fafafa;
+    transform: scale(1.5);
 }
 .btn-cart, .logo{
     align-self: center;
@@ -40,28 +43,40 @@ button:focus{
 /*padding: 40px 80px;*/
 /*}*/
 .products{
-    column-gap: 30px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 200px);
-    grid-template-rows: 1fr;
-    padding: 40px 80px;
+    display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 p {
     margin: 0 0 5px 0;
 }
 .product-item{
-    display: flex;
-    flex-direction: column;
-    width: 200px;
+    display: flex!important;
+    flex-direction: column!important;
+    width: 275px!important;
     border-radius: 5px;
     overflow: hidden;
-    margin: 20px 0;
+    margin-right: 10px;
+    margin-bottom: 20px;
 }
 img {
-    max-width: 100%;
-    height: 150px;
+    width: 100%;
+    height: 350px;
 }
+
+.product-btns{
+    display: flex;
+    justify-content: space-around;
+}
+
+.catalog-btn{
+    background-color: #2f2a2d;
+    width: 90px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
 .desc {
     border: 1px solid #c0c0c040;
     padding: 15px
@@ -83,6 +98,17 @@ img {
     width: 300px;
 }
 
+.product-item-name{
+    height: 70px;
+    width: 100%;
+    text-align: center;
+}
+
+.price{
+    width: 100%;
+    text-align: center;
+}
+
 .invisible{
     display: none;
 }
@@ -100,7 +126,7 @@ img {
 
 .buy-btn, .del-btn{
     margin-top: 5px;
-    background-color: #2f2a2d;
+    background-color: greenyellow;
     padding: 5px 15px;
     border: 1px solid transparent;
     color: #fafafa;
@@ -108,10 +134,10 @@ img {
     transition: all ease-in-out .4s;
     cursor: pointer;
 }
-.buy-btn:hover, .del-btn:hover{
+.buy-btn:hover, .del-btn:hover, .catalog-btn:hover{
     background-color: #fafafa;
     color: #2f2a2d;
-    border: 1px solid #2f2a2d;
+    outline: 1px solid #2f2a2d;
 }
 .cart-item {
     display: flex;
@@ -127,7 +153,7 @@ img {
     align-self: flex-start;
     margin-right: 15px;
     height: 50px;
-    width: 75px;
+    width: 45px;
 }
 .product-single-price{
     color: #474747;

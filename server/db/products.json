@@ -1,22 +1,22 @@
 [
   {
     "id_product": 1,
-    "product_name": "Keyboard",
-    "price": 1600
+    "product_name": "На западном фронте без перемен",
+    "price": 300
   },
   {
     "id_product": 2,
-    "product_name": "Gamepad",
-    "price": 3000
+    "product_name": "Ночь в Лиссабоне",
+    "price": 200
   },
   {
     "id_product": 3,
-    "product_name": "Ноутбук",
-    "price": 45600
+    "product_name": "Три товарища",
+    "price": 220
   },
   {
     "id_product": 4,
-    "product_name": "Мышка",
-    "price": 1000
+    "product_name": "Триумфальная арка",
+    "price": 250
   }
 ]
