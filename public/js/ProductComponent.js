@@ -4,13 +4,13 @@ Vue.component('products', {
            catalogUrl: '/catalogData.json',
            filtered: [],
            products: [],
-           imgProduct: 'https://placehold.it/200x150'
        }
    },
     mounted(){
         this.$parent.getJson(`/api/products`)
             .then(data => {
                 for (let item of data){
+                    item.img = `img/${item.id_product}.jpg`;
                     this.$data.products.push(item);
                     this.$data.filtered.push(item);
                 }
@@ -25,7 +25,7 @@ Vue.component('products', {
    template: `<div class="products">
                 <product v-for="item of filtered" 
                 :key="item.id_product" 
-                :img="imgProduct"
+                :img="item.img"
                 :product="item"
                 @add-product="$parent.$refs.cart.addProduct"></product>
                </div>`
