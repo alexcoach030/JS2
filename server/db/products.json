@@ -1,0 +1,22 @@
+[
+  {
+    "id_product": 1,
+    "product_name": "На западном фронте без перемен",
+    "price": 300
+  },
+  {
+    "id_product": 2,
+    "product_name": "Ночь в Лиссабоне",
+    "price": 200
+  },
+  {
+    "id_product": 3,
+    "product_name": "Три товарища",
+    "price": 220
+  },
+  {
+    "id_product": 4,
+    "product_name": "Триумфальная арка",
+    "price": 250
+  }
+]
